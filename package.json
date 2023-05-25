@@ -1,12 +1,12 @@
 {
-  "name": "@9x6/norreda-kalender",
-  "version": "1.0.0",
+  "name": "@9x6/norreda",
+  "version": "1.2.0",
   "description": "Bookings calender for Norreda",
   "homepage": "https://github.com/fredrik9X6/Norreda-kalender#readme",
   "license": "ISC",
   "keywords": [],
   "author": {
-    "name": "fredrik",
+    "name": "fredrik9x6",
     "url": "https://9x6.se/"
   },
   "repository": {
