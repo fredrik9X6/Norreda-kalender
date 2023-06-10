@@ -83,7 +83,7 @@ function updateTotalPrice() {
 
   // Apply member discount if applicable
   if (isMember) {
-    totalPrice *= 0.8; // 20% discount for members
+    totalPrice *= 0.7; // 30% discount for members
   }
 
   document.getElementById('total-price').textContent = totalPrice.toFixed(0) + ' kr'; // Display total price with 0 decimal places
