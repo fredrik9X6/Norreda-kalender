@@ -1,5 +1,11 @@
 # @fredrik9X6/Norreda-kalender
 
+## 1.4.0
+
+### Minor Changes
+
+- d11db29: added pricing calculator
+
 ## 1.3.0
 
 ### Minor Changes
