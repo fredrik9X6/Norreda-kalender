@@ -42,13 +42,13 @@ const getEvents = (): Event[] => {
 };
 
 const rates = {
-  Sportstugan: { weekday: 100, weekend: 120 },
-  Ladan: { weekday: 80, weekend: 100 },
-  Torpet: { weekday: 90, weekend: 110 },
-  'Visthuset nedre': { weekday: 110, weekend: 130 },
-  'Visthuset övre': { weekday: 110, weekend: 130 },
-  Sovstugan: { weekday: 70, weekend: 90 },
-  Bastun: { weekday: 60, weekend: 80 },
+  Sportstugan: { weekday: 1050, weekend: 1550 },
+  Ladan: { weekday: 500, weekend: 650 },
+  Torpet: { weekday: 800, weekend: 1300 },
+  'Visthuset nedre': { weekday: 200, weekend: 250 },
+  'Visthuset övre': { weekday: 150, weekend: 200 },
+  Sovstugan: { weekday: 250, weekend: 300 },
+  Bastun: { weekday: 100, weekend: 100 },
 };
 
 // Update the total price based on the form inputs
