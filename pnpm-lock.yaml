@@ -16,6 +16,9 @@ dependencies:
   '@fullcalendar/timegrid':
     specifier: ^6.1.7
     version: 6.1.7(@fullcalendar/core@6.1.7)
+  flatpickr:
+    specifier: ^4.6.13
+    version: 4.6.13
 
 devDependencies:
   '@changesets/changelog-git':
@@ -1506,6 +1509,10 @@ packages:
       flatted: 3.2.7
       rimraf: 3.0.2
     dev: true
+
+  /flatpickr@4.6.13:
+    resolution: {integrity: sha512-97PMG/aywoYpB4IvbvUJi0RQi8vearvU0oov1WW3k0WZPBMrTQVqekSX5CjSG/M4Q3i6A/0FKXC7RyAoAUUSPw==}
+    dev: false
 
   /flatted@3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}

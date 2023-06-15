@@ -2,6 +2,8 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import flatpickr from 'flatpickr';
+import { Swedish } from 'flatpickr/dist/l10n/sv.js';
 
 import type { Event } from './types';
 
@@ -26,6 +28,21 @@ window.Webflow.push(() => {
   });
 
   calendar.render();
+
+  flatpickr('.date-start-sportstugan', {
+    altInput: true,
+    altFormat: 'j F, Y',
+    dateFormat: 'Y-m-d',
+    minDate: new Date().fp_incr(14),
+    disable: sportstugan,
+  });
+  flatpickr('.date-end-sportstugan', {
+    altInput: true,
+    altFormat: 'j F, Y',
+    dateFormat: 'Y-m-d',
+    minDate: new Date().fp_incr(15),
+    disable: sportstugan,
+  });
 });
 
 const getEvents = (): Event[] => {
@@ -40,6 +57,40 @@ const getEvents = (): Event[] => {
 
   return events;
 };
+
+// Get the booked dates from Collection list on Webflow (via GetEvents function)
+const bookedDates = getEvents().flatMap((event) => {
+  const startDate = new Date(event.start);
+  const endDate = new Date(event.end);
+
+  const dates = [];
+  const currentDate = startDate;
+  while (currentDate <= endDate) {
+    dates.push(currentDate.toISOString().split('T')[0]);
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dates;
+});
+
+const sportstugan = getEvents().flatMap((event) => {
+  if (event.lodge === 'Sportstugan') {
+    const startDate = new Date(event.start);
+    const endDate = new Date(event.end);
+
+    const dates = [];
+    const currentDate = startDate;
+    while (currentDate <= endDate) {
+      dates.push(currentDate.toISOString().split('T')[0]);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  }
+  return [];
+});
+
+flatpickr.localize(Swedish);
 
 const rates = {
   Sportstugan: { weekday: 1050, weekend: 1550 },
