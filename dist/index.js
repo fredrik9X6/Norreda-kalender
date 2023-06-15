@@ -11419,9 +11419,7 @@
     const startDateInput = document.querySelector('input[data-custom="start-date"]');
     const endDateInput = document.querySelector('input[data-custom="end-date"]');
     const selectedLodges = document.querySelectorAll('input[data-custom="lodge"]:checked');
-    const isMember = document.querySelector(
-      'input[data-custom="member-checkbox"]'
-    ).checked;
+    const isMember = document.querySelector('input[data-custom="member-checkbox"]').checked;
     const startDate = formatDate(startDateInput.value);
     const endDate = formatDate(endDateInput.value);
     let totalPrice = 0;
@@ -11439,6 +11437,8 @@
       totalPrice *= 0.7;
     }
     document.getElementById("total-price").textContent = totalPrice.toFixed(0) + " kr";
+    const priceInput = document.querySelector('input[data-custom="price"]');
+    priceInput.value = totalPrice.toFixed(0) + " kr";
   }
   function formatDate(dateString) {
     const dateParts = dateString.split("-");
