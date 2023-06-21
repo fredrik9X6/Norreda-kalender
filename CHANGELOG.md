@@ -1,5 +1,11 @@
 # @fredrik9X6/Norreda-kalender
 
+## 2.0.0
+
+### Major Changes
+
+- 8a51d31: Lade till mer datepicker funktionalitet. Flera stycken. Ändrade logiken för totalPrice.
+
 ## 1.5.0
 
 ### Minor Changes
