@@ -13883,24 +13883,21 @@
       events
     });
     calendar.render();
-    const lodges2 = [
+    const lodges = [
       "Sportstugan",
       "Torpet",
       "Ladan",
       "VisthusetNedre",
-      "Visthuset\xD6vre",
+      "Visthusetovre",
       "Sovstugan",
       "Bastun"
     ];
-    lodges2.forEach((lodge) => {
-      esm_default(`.date-range-${lodge.toLowerCase()}`, {
+    lodges.forEach((lodge) => {
+      esm_default(`#${lodge.toLowerCase()}`, {
         mode: "range",
         dateFormat: "Y-m-d",
         minDate: (/* @__PURE__ */ new Date()).fp_incr(14),
-        disable: getBookedDates(lodge),
-        onChange: function() {
-          updateTotalPrice();
-        }
+        disable: getBookedDates(lodge)
       });
     });
   });
@@ -13912,7 +13909,10 @@
       event.end = new Date(event.end);
       return event;
     });
-    return events;
+    const currentUrl = window.location.href;
+    const lastPart = currentUrl.substr(currentUrl.lastIndexOf("/") + 1);
+    const filteredEvents = events.filter((event) => event.stugaid === lastPart);
+    return filteredEvents;
   };
   var getBookedDates = (lodge) => {
     return getEvents().filter((event) => event.lodge === lodge).flatMap((event) => {
@@ -13928,63 +13928,5 @@
     });
   };
   esm_default.localize(import_sv.Swedish);
-  var rates = {
-    Sportstugan: { weekday: 1050, weekend: 1550 },
-    Ladan: { weekday: 500, weekend: 650 },
-    Torpet: { weekday: 800, weekend: 1300 },
-    VisthusetNedre: { weekday: 200, weekend: 250 },
-    Visthuset\u00D6vre: { weekday: 150, weekend: 200 },
-    Sovstugan: { weekday: 250, weekend: 300 },
-    Bastun: { weekday: 100, weekend: 100 }
-  };
-  function updateTotalPrice() {
-    const selectedLodges = document.querySelectorAll('input[data-custom="lodge"]:checked');
-    const isMember = document.querySelector('input[data-custom="member-checkbox"]').checked;
-    let totalPrice = 0;
-    selectedLodges.forEach(function(checkbox) {
-      const lodge = checkbox.getAttribute("data-lodge-name");
-      const dateRangeInput = document.querySelector(
-        `input[data-custom="date-range-${lodge.toLowerCase()}"]`
-      );
-      const dateRange = dateRangeInput.value.split(" till ");
-      const startDateString = dateRange[0];
-      const endDateString = dateRange[1];
-      const startDate = formatDate(startDateString);
-      const endDate = formatDate(endDateString);
-      const currentDate = new Date(startDate.year, startDate.month - 1, startDate.day);
-      while (currentDate <= new Date(endDate.year, endDate.month - 1, endDate.day)) {
-        const dayOfWeek = currentDate.getDay();
-        const rate = dayOfWeek === 0 || dayOfWeek === 6 ? rates[lodge].weekend : rates[lodge].weekday;
-        totalPrice += rate;
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-    });
-    if (isMember) {
-      totalPrice *= 0.7;
-    }
-    document.getElementById("total-price").textContent = totalPrice.toFixed(0) + " kr";
-    const priceInput = document.querySelector('input[data-custom="price"]');
-    priceInput.value = totalPrice.toFixed(0) + " kr";
-  }
-  function formatDate(dateString) {
-    const dateParts = dateString.split("-");
-    return {
-      day: dateParts[2],
-      month: dateParts[1],
-      year: dateParts[0]
-    };
-  }
-  var lodgeCheckboxes = document.querySelectorAll('input[data-custom="lodge"]');
-  lodgeCheckboxes.forEach(function(checkbox) {
-    checkbox.addEventListener("change", updateTotalPrice);
-  });
-  var memberCheckbox = document.querySelector('input[data-custom="member-checkbox"]');
-  memberCheckbox.addEventListener("change", updateTotalPrice);
-  lodges.forEach((lodge) => {
-    const dateRangeInput = document.querySelector(
-      `input[data-custom="date-range-${lodge.toLowerCase()}"]`
-    );
-    dateRangeInput.addEventListener("change", updateTotalPrice);
-  });
 })();
 //# sourceMappingURL=index.js.map

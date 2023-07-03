@@ -33,20 +33,17 @@ window.Webflow.push(() => {
     'Torpet',
     'Ladan',
     'VisthusetNedre',
-    'VisthusetÖvre',
+    'Visthusetovre',
     'Sovstugan',
     'Bastun',
   ];
 
   lodges.forEach((lodge) => {
-    flatpickr(`.date-range-${lodge.toLowerCase()}`, {
+    flatpickr(`#${lodge.toLowerCase()}`, {
       mode: 'range',
       dateFormat: 'Y-m-d',
       minDate: new Date().fp_incr(14),
       disable: getBookedDates(lodge),
-      onChange: function () {
-        updateTotalPrice();
-      },
     });
   });
 });
@@ -60,7 +57,14 @@ const getEvents = (): Event[] => {
     return event;
   });
 
-  return events;
+  // Get the last part of the current URL
+  const currentUrl = window.location.href;
+  const lastPart = currentUrl.substr(currentUrl.lastIndexOf('/') + 1);
+
+  // Filter items where "stugaid" matches the last part of the URL
+  const filteredEvents = events.filter((event) => event.stugaid === lastPart);
+
+  return filteredEvents;
 };
 
 const getBookedDates = (lodge: string): string[] => {
@@ -82,86 +86,3 @@ const getBookedDates = (lodge: string): string[] => {
 };
 
 flatpickr.localize(Swedish);
-
-const rates = {
-  Sportstugan: { weekday: 1050, weekend: 1550 },
-  Ladan: { weekday: 500, weekend: 650 },
-  Torpet: { weekday: 800, weekend: 1300 },
-  VisthusetNedre: { weekday: 200, weekend: 250 },
-  VisthusetÖvre: { weekday: 150, weekend: 200 },
-  Sovstugan: { weekday: 250, weekend: 300 },
-  Bastun: { weekday: 100, weekend: 100 },
-};
-
-// Update the total price based on the form inputs
-function updateTotalPrice() {
-  const selectedLodges = document.querySelectorAll('input[data-custom="lodge"]:checked');
-  const isMember = document.querySelector('input[data-custom="member-checkbox"]').checked;
-
-  let totalPrice = 0;
-
-  selectedLodges.forEach(function (checkbox) {
-    const lodge = checkbox.getAttribute('data-lodge-name');
-    const dateRangeInput = document.querySelector(
-      `input[data-custom="date-range-${lodge.toLowerCase()}"]`
-    );
-
-    // Parse the date range input
-    const dateRange = dateRangeInput.value.split(' till ');
-    const startDateString = dateRange[0];
-    const endDateString = dateRange[1];
-
-    // Convert start and end dates to dd-mm-yyyy format
-    const startDate = formatDate(startDateString);
-    const endDate = formatDate(endDateString);
-
-    // Calculate the total price based on selected lodge and date range
-    const currentDate = new Date(startDate.year, startDate.month - 1, startDate.day);
-
-    while (currentDate <= new Date(endDate.year, endDate.month - 1, endDate.day)) {
-      const dayOfWeek = currentDate.getDay();
-
-      const rate = dayOfWeek === 0 || dayOfWeek === 6 ? rates[lodge].weekend : rates[lodge].weekday;
-      totalPrice += rate;
-
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-  });
-
-  // Apply member discount if applicable
-  if (isMember) {
-    totalPrice *= 0.7; // 30% discount for members
-  }
-
-  document.getElementById('total-price').textContent = totalPrice.toFixed(0) + ' kr'; // Display total price with 0 decimal places
-
-  // Update the price input field
-  const priceInput = document.querySelector('input[data-custom="price"]');
-  priceInput.value = totalPrice.toFixed(0) + ' kr';
-}
-
-// Helper function to format date as dd-mm-yyyy
-function formatDate(dateString) {
-  const dateParts = dateString.split('-');
-  return {
-    day: dateParts[2],
-    month: dateParts[1],
-    year: dateParts[0],
-  };
-}
-
-// Add event listeners to form inputs
-const lodgeCheckboxes = document.querySelectorAll('input[data-custom="lodge"]');
-lodgeCheckboxes.forEach(function (checkbox) {
-  checkbox.addEventListener('change', updateTotalPrice);
-});
-
-const memberCheckbox = document.querySelector('input[data-custom="member-checkbox"]');
-memberCheckbox.addEventListener('change', updateTotalPrice);
-
-lodges.forEach((lodge) => {
-  const dateRangeInput = document.querySelector(
-    `input[data-custom="date-range-${lodge.toLowerCase()}"]`
-  );
-  dateRangeInput.addEventListener('change', updateTotalPrice);
-});

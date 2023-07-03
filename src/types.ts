@@ -3,4 +3,6 @@ export type Event = {
   start: string | Date;
   end: string | Date;
   lodge: string;
+  stuga: string;
+  stugaid: string;
 };
