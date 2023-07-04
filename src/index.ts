@@ -1,7 +1,3 @@
-import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import listPlugin from '@fullcalendar/list';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import flatpickr from 'flatpickr';
 import { Swedish } from 'flatpickr/dist/l10n/sv.js';
 
@@ -9,33 +5,17 @@ import type { Event } from './types';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
-  const calendarElement = document.querySelector<HTMLDivElement>('[data-element="calendar"]');
-  if (!calendarElement) return;
-
   const events = getEvents();
   console.log(events);
 
-  const calendar = new Calendar(calendarElement, {
-    plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
-    initialView: 'dayGridMonth',
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,listWeek',
-    },
-    events,
-  });
-
-  calendar.render();
-
   const lodges = [
-    'Sportstugan',
-    'Torpet',
-    'Ladan',
-    'VisthusetNedre',
-    'Visthusetovre',
-    'Sovstugan',
-    'Bastun',
+    'sportstugan',
+    'torpet',
+    'ladan',
+    'visthusetnedre',
+    'visthusetovre',
+    'sovstugan',
+    'bastun',
   ];
 
   lodges.forEach((lodge) => {
