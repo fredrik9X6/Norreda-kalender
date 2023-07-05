@@ -2464,28 +2464,6 @@
 
   // src/index.ts
   var import_sv = __toESM(require_sv(), 1);
-  window.Webflow ||= [];
-  window.Webflow.push(() => {
-    const events = getEvents();
-    console.log(events);
-    const lodges = [
-      "sportstugan",
-      "torpet",
-      "ladan",
-      "visthusetnedre",
-      "visthusetovre",
-      "sovstugan",
-      "bastun"
-    ];
-    lodges.forEach((lodge) => {
-      esm_default(`#${lodge.toLowerCase()}`, {
-        mode: "range",
-        dateFormat: "Y-m-d",
-        minDate: (/* @__PURE__ */ new Date()).fp_incr(14),
-        disable: getBookedDates(lodge)
-      });
-    });
-  });
   var getEvents = () => {
     const scripts = document.querySelectorAll('[data-element="event-data"]');
     const events = [...scripts].map((script) => {
@@ -2512,6 +2490,80 @@
       return dates;
     });
   };
+  window.Webflow ||= [];
+  window.Webflow.push(() => {
+    const events = getEvents();
+    console.log(events);
+    const lodgeRates = {
+      sportstugan: {
+        weekdayRate: 1050,
+        weekendRate: 1550
+      },
+      torpet: {
+        weekdayRate: 800,
+        weekendRate: 1300
+      },
+      ladan: {
+        weekdayRate: 500,
+        weekendRate: 650
+      },
+      visthusetnedre: {
+        weekdayRate: 200,
+        weekendRate: 250
+      },
+      visthusetovre: {
+        weekdayRate: 150,
+        weekendRate: 200
+      },
+      sovstugan: {
+        weekdayRate: 250,
+        weekendRate: 300
+      },
+      bastun: {
+        weekdayRate: 100,
+        weekendRate: 100
+      }
+    };
+    const lodges = Object.keys(lodgeRates);
+    const fp = lodges.forEach((lodge) => {
+      esm_default(`#${lodge.toLowerCase()}`, {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        minDate: (/* @__PURE__ */ new Date()).fp_incr(14),
+        disable: getBookedDates(lodge),
+        onChange: function(selectedDates) {
+          const startDate = selectedDates[0] ? selectedDates[0].toISOString().split("T")[0] : "";
+          const endDate = selectedDates[1] ? selectedDates[1].toISOString().split("T")[0] : "";
+          const memberDiscount = document.getElementById("member-discount").checked;
+          const totalPrice = calculateTotalPrice(
+            startDate,
+            endDate,
+            memberDiscount,
+            lodgeRates[lodge]
+          );
+          document.getElementById("total-price").textContent = totalPrice.toString();
+        }
+      });
+    });
+  });
+  function calculateTotalPrice(startDate, endDate, memberDiscount, lodgeRate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const nights = Math.ceil((end - start) / (1e3 * 60 * 60 * 24));
+    let totalPrice = 0;
+    const currentDate = new Date(start);
+    while (currentDate < end) {
+      const isWeekend = currentDate.getDay() === 5 || currentDate.getDay() === 4;
+      const nightlyRate = isWeekend ? lodgeRate.weekendRate : lodgeRate.weekdayRate;
+      if (memberDiscount) {
+        totalPrice += nightlyRate * 0.7;
+      } else {
+        totalPrice += nightlyRate;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return totalPrice;
+  }
   esm_default.localize(import_sv.Swedish);
 })();
 //# sourceMappingURL=index.js.map
