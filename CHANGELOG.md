@@ -1,5 +1,11 @@
 # @fredrik9X6/Norreda-kalender
 
+## 3.0.0
+
+### Major Changes
+
+- 238bc16: Bytt struktur helt. Denna koden används för template-pages för när stugorna bokas individuellt. Det kommer vara 3 andra separata kodbaser för Frontpage (fullcalendar), Boka hela norreda och boka bastun.
+
 ## 2.0.0
 
 ### Major Changes
