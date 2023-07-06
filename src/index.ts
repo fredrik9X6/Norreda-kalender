@@ -9,6 +9,8 @@ const getEvents = (): Event[] => {
     const event: Event = JSON.parse(script.textContent!);
     event.start = new Date(event.start);
     event.end = new Date(event.end);
+    event.end.setDate(event.end.getDate() - 1);
+
     return event;
   });
 
