@@ -2542,10 +2542,15 @@
             lodgeRates[lodge]
           );
           document.getElementById("total-price").textContent = totalPrice.toString();
+          appendPriceInput(totalPrice);
         }
       });
     });
   });
+  function appendPriceInput(totalPrice) {
+    const priceInput = document.getElementById("price-input");
+    priceInput.value = totalPrice.toString();
+  }
   function calculateTotalPrice(startDate, endDate, memberDiscount, lodgeRate) {
     const start = new Date(startDate);
     const end = new Date(endDate);
