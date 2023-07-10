@@ -1,5 +1,11 @@
 # @fredrik9X6/Norreda-kalender
 
+## 3.0.1
+
+### Patch Changes
+
+- 1705044: price input och appendpriceinput function
+
 ## 3.0.0
 
 ### Major Changes
