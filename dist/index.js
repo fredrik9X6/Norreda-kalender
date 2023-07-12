@@ -2487,6 +2487,8 @@
         dates.push(currentDate.toISOString().split("T")[0]);
         currentDate.setDate(currentDate.getDate() + 1);
       }
+      dates.shift();
+      dates.shift();
       return dates;
     });
   };

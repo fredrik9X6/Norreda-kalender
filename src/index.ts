@@ -36,6 +36,9 @@ const getBookedDates = (lodge: string): string[] => {
         dates.push(currentDate.toISOString().split('T')[0]);
         currentDate.setDate(currentDate.getDate() + 1);
       }
+      //remove the two first dates
+      dates.shift();
+      dates.shift();
 
       return dates;
     });
