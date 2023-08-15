@@ -1,5 +1,11 @@
 # @fredrik9X6/Norreda-kalender
 
+## 3.0.2
+
+### Patch Changes
+
+- ea43d9d: ta bort de två första dates för att visa displaya rätt dates i picker
+
 ## 3.0.1
 
 ### Patch Changes
