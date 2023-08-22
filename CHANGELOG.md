@@ -1,5 +1,11 @@
 # @fredrik9X6/Norreda-kalender
 
+## 3.0.3
+
+### Patch Changes
+
+- 2993e4b: Fix checkboxes and totalPrice update (member/bastu)
+
 ## 3.0.2
 
 ### Patch Changes
