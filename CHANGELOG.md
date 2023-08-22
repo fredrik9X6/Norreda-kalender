@@ -1,5 +1,11 @@
 # @fredrik9X6/Norreda-kalender
 
+## 3.0.4
+
+### Patch Changes
+
+- 2fef16c: fixat decimaler
+
 ## 3.0.3
 
 ### Patch Changes
