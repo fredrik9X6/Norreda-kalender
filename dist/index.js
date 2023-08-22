@@ -2526,26 +2526,67 @@
         weekendRate: 100
       }
     };
+    let CurrentSelectedDates = [];
     const lodges = Object.keys(lodgeRates);
     const fp = lodges.forEach((lodge) => {
       esm_default(`#${lodge.toLowerCase()}`, {
         mode: "range",
         dateFormat: "Y-m-d",
-        minDate: (/* @__PURE__ */ new Date()).fp_incr(14),
+        minDate: /* @__PURE__ */ new Date(),
         disable: getBookedDates(lodge),
         onChange: function(selectedDates) {
           const startDate = selectedDates[0] ? selectedDates[0].toISOString().split("T")[0] : "";
           const endDate = selectedDates[1] ? selectedDates[1].toISOString().split("T")[0] : "";
           const memberDiscount = document.getElementById("member-discount").checked;
+          const tillaggCheckbox = document.getElementById("tillagg");
+          const tillaggChecked = tillaggCheckbox ? tillaggCheckbox.checked : false;
+          CurrentSelectedDates = selectedDates;
           const totalPrice = calculateTotalPrice(
             startDate,
             endDate,
             memberDiscount,
+            tillaggChecked,
             lodgeRates[lodge]
           );
           document.getElementById("total-price").textContent = totalPrice.toString();
           appendPriceInput(totalPrice);
         }
+      });
+      document.getElementById("tillagg").addEventListener("change", function() {
+        const startDate = CurrentSelectedDates[0] ? CurrentSelectedDates[0].toISOString().split("T")[0] : "";
+        const endDate = CurrentSelectedDates[1] ? CurrentSelectedDates[1].toISOString().split("T")[0] : "";
+        const memberDiscount = document.getElementById("member-discount").checked;
+        const tillaggChecked = this.checked;
+        const currentUrl = window.location.href;
+        const lastPart = currentUrl.substr(currentUrl.lastIndexOf("/") + 1);
+        const lodge2 = lastPart;
+        const totalPrice = calculateTotalPrice(
+          startDate,
+          endDate,
+          memberDiscount,
+          tillaggChecked,
+          lodgeRates[lodge2]
+        );
+        document.getElementById("total-price").textContent = totalPrice.toString();
+        appendPriceInput(totalPrice);
+      });
+      document.getElementById("member-discount").addEventListener("change", function() {
+        const startDate = CurrentSelectedDates[0] ? CurrentSelectedDates[0].toISOString().split("T")[0] : "";
+        const endDate = CurrentSelectedDates[1] ? CurrentSelectedDates[1].toISOString().split("T")[0] : "";
+        const memberDiscount = document.getElementById("member-discount").checked;
+        const tillaggChecked = this.checked;
+        const currentUrl = window.location.href;
+        const lastPart = currentUrl.substr(currentUrl.lastIndexOf("/") + 1);
+        const lodge2 = lastPart;
+        const totalPrice = calculateTotalPrice(
+          startDate,
+          endDate,
+          memberDiscount,
+          tillaggChecked,
+          lodgeRates[lodge2]
+        );
+        document.getElementById("total-price").textContent = totalPrice.toString();
+        appendPriceInput(totalPrice);
       });
     });
   });
@@ -2553,21 +2594,22 @@
     const priceInput = document.getElementById("price-input");
     priceInput.value = totalPrice.toString();
   }
-  function calculateTotalPrice(startDate, endDate, memberDiscount, lodgeRate) {
+  function calculateTotalPrice(startDate, endDate, memberDiscount, tillaggChecked, lodgeRate) {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    const nights = Math.ceil((end - start) / (1e3 * 60 * 60 * 24));
     let totalPrice = 0;
     const currentDate = new Date(start);
     while (currentDate < end) {
       const isWeekend = currentDate.getDay() === 5 || currentDate.getDay() === 4;
       const nightlyRate = isWeekend ? lodgeRate.weekendRate : lodgeRate.weekdayRate;
-      if (memberDiscount) {
-        totalPrice += nightlyRate * 0.7;
-      } else {
-        totalPrice += nightlyRate;
+      totalPrice += nightlyRate;
+      if (tillaggChecked) {
+        totalPrice += 100;
       }
       currentDate.setDate(currentDate.getDate() + 1);
+    }
+    if (memberDiscount) {
+      totalPrice *= 0.7;
     }
     return totalPrice;
   }
