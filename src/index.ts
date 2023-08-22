@@ -111,58 +111,58 @@ window.Webflow.push(() => {
         appendPriceInput(totalPrice);
       },
     });
+  });
+  // updating the price when the member discount checkbox is clicked
+  document.getElementById('tillagg').addEventListener('change', function () {
+    const startDate = CurrentSelectedDates[0]
+      ? CurrentSelectedDates[0].toISOString().split('T')[0]
+      : ''; // Get the selected start date
+    const endDate = CurrentSelectedDates[1]
+      ? CurrentSelectedDates[1].toISOString().split('T')[0]
+      : ''; // Get the selected end date
+    const memberDiscount = document.getElementById('member-discount').checked;
+    const tillaggChecked = this.checked; // Get the checked state of the checkbox
 
-    // updating the price when the member discount checkbox is clicked
-    document.getElementById('tillagg').addEventListener('change', function () {
-      const startDate = CurrentSelectedDates[0]
-        ? CurrentSelectedDates[0].toISOString().split('T')[0]
-        : ''; // Get the selected start date
-      const endDate = CurrentSelectedDates[1]
-        ? CurrentSelectedDates[1].toISOString().split('T')[0]
-        : ''; // Get the selected end date
-      const memberDiscount = document.getElementById('member-discount').checked;
-      const tillaggChecked = this.checked; // Get the checked state of the checkbox
+    const currentUrl = window.location.href; // Get the lodge value
+    const lastPart = currentUrl.substr(currentUrl.lastIndexOf('/') + 1); // Get the lodge value
+    const lodge = lastPart; // Get the lodge value
+    const totalPrice = calculateTotalPrice(
+      startDate,
+      endDate,
+      memberDiscount,
+      tillaggChecked,
+      lodgeRates[lodge]
+    );
 
-      const currentUrl = window.location.href; // Get the lodge value
-      const lastPart = currentUrl.substr(currentUrl.lastIndexOf('/') + 1); // Get the lodge value
-      const lodge = lastPart; // Get the lodge value
-      const totalPrice = calculateTotalPrice(
-        startDate,
-        endDate,
-        memberDiscount,
-        tillaggChecked,
-        lodgeRates[lodge]
-      );
+    document.getElementById('total-price').textContent = totalPrice.toString();
+    appendPriceInput(totalPrice);
+  });
 
-      document.getElementById('total-price').textContent = totalPrice.toString();
-      appendPriceInput(totalPrice);
-    });
+  // updating the total price when member discount is checked
+  document.getElementById('member-discount').addEventListener('change', function () {
+    const startDate = CurrentSelectedDates[0]
+      ? CurrentSelectedDates[0].toISOString().split('T')[0]
+      : ''; // Get the selected start date
+    const endDate = CurrentSelectedDates[1]
+      ? CurrentSelectedDates[1].toISOString().split('T')[0]
+      : ''; // Get the selected end date
+    const memberDiscount = document.getElementById('member-discount').checked;
+    const tillaggCheckbox = document.getElementById('tillagg');
+    const tillaggChecked = tillaggCheckbox ? tillaggCheckbox.checked : false; // Get the checked state of the checkbox
 
-    // updating the total price when member discount is checked
-    document.getElementById('member-discount').addEventListener('change', function () {
-      const startDate = CurrentSelectedDates[0]
-        ? CurrentSelectedDates[0].toISOString().split('T')[0]
-        : ''; // Get the selected start date
-      const endDate = CurrentSelectedDates[1]
-        ? CurrentSelectedDates[1].toISOString().split('T')[0]
-        : ''; // Get the selected end date
-      const memberDiscount = document.getElementById('member-discount').checked;
-      const tillaggChecked = this.checked; // Get the checked state of the checkbox
+    const currentUrl = window.location.href; // Get the lodge value
+    const lastPart = currentUrl.substr(currentUrl.lastIndexOf('/') + 1); // Get the lodge value
+    const lodge = lastPart; // Get the lodge value
+    const totalPrice = calculateTotalPrice(
+      startDate,
+      endDate,
+      memberDiscount,
+      tillaggChecked,
+      lodgeRates[lodge]
+    );
 
-      const currentUrl = window.location.href; // Get the lodge value
-      const lastPart = currentUrl.substr(currentUrl.lastIndexOf('/') + 1); // Get the lodge value
-      const lodge = lastPart; // Get the lodge value
-      const totalPrice = calculateTotalPrice(
-        startDate,
-        endDate,
-        memberDiscount,
-        tillaggChecked,
-        lodgeRates[lodge]
-      );
-
-      document.getElementById('total-price').textContent = totalPrice.toString();
-      appendPriceInput(totalPrice);
-    });
+    document.getElementById('total-price').textContent = totalPrice.toString();
+    appendPriceInput(totalPrice);
   });
 });
 

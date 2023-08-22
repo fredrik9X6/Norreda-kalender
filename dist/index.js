@@ -2552,42 +2552,43 @@
           appendPriceInput(totalPrice);
         }
       });
-      document.getElementById("tillagg").addEventListener("change", function() {
-        const startDate = CurrentSelectedDates[0] ? CurrentSelectedDates[0].toISOString().split("T")[0] : "";
-        const endDate = CurrentSelectedDates[1] ? CurrentSelectedDates[1].toISOString().split("T")[0] : "";
-        const memberDiscount = document.getElementById("member-discount").checked;
-        const tillaggChecked = this.checked;
-        const currentUrl = window.location.href;
-        const lastPart = currentUrl.substr(currentUrl.lastIndexOf("/") + 1);
-        const lodge2 = lastPart;
-        const totalPrice = calculateTotalPrice(
-          startDate,
-          endDate,
-          memberDiscount,
-          tillaggChecked,
-          lodgeRates[lodge2]
-        );
-        document.getElementById("total-price").textContent = totalPrice.toString();
-        appendPriceInput(totalPrice);
-      });
-      document.getElementById("member-discount").addEventListener("change", function() {
-        const startDate = CurrentSelectedDates[0] ? CurrentSelectedDates[0].toISOString().split("T")[0] : "";
-        const endDate = CurrentSelectedDates[1] ? CurrentSelectedDates[1].toISOString().split("T")[0] : "";
-        const memberDiscount = document.getElementById("member-discount").checked;
-        const tillaggChecked = this.checked;
-        const currentUrl = window.location.href;
-        const lastPart = currentUrl.substr(currentUrl.lastIndexOf("/") + 1);
-        const lodge2 = lastPart;
-        const totalPrice = calculateTotalPrice(
-          startDate,
-          endDate,
-          memberDiscount,
-          tillaggChecked,
-          lodgeRates[lodge2]
-        );
-        document.getElementById("total-price").textContent = totalPrice.toString();
-        appendPriceInput(totalPrice);
-      });
+    });
+    document.getElementById("tillagg").addEventListener("change", function() {
+      const startDate = CurrentSelectedDates[0] ? CurrentSelectedDates[0].toISOString().split("T")[0] : "";
+      const endDate = CurrentSelectedDates[1] ? CurrentSelectedDates[1].toISOString().split("T")[0] : "";
+      const memberDiscount = document.getElementById("member-discount").checked;
+      const tillaggChecked = this.checked;
+      const currentUrl = window.location.href;
+      const lastPart = currentUrl.substr(currentUrl.lastIndexOf("/") + 1);
+      const lodge = lastPart;
+      const totalPrice = calculateTotalPrice(
+        startDate,
+        endDate,
+        memberDiscount,
+        tillaggChecked,
+        lodgeRates[lodge]
+      );
+      document.getElementById("total-price").textContent = totalPrice.toString();
+      appendPriceInput(totalPrice);
+    });
+    document.getElementById("member-discount").addEventListener("change", function() {
+      const startDate = CurrentSelectedDates[0] ? CurrentSelectedDates[0].toISOString().split("T")[0] : "";
+      const endDate = CurrentSelectedDates[1] ? CurrentSelectedDates[1].toISOString().split("T")[0] : "";
+      const memberDiscount = document.getElementById("member-discount").checked;
+      const tillaggCheckbox = document.getElementById("tillagg");
+      const tillaggChecked = tillaggCheckbox ? tillaggCheckbox.checked : false;
+      const currentUrl = window.location.href;
+      const lastPart = currentUrl.substr(currentUrl.lastIndexOf("/") + 1);
+      const lodge = lastPart;
+      const totalPrice = calculateTotalPrice(
+        startDate,
+        endDate,
+        memberDiscount,
+        tillaggChecked,
+        lodgeRates[lodge]
+      );
+      document.getElementById("total-price").textContent = totalPrice.toString();
+      appendPriceInput(totalPrice);
     });
   });
   function appendPriceInput(totalPrice) {
