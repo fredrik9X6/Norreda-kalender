@@ -171,34 +171,6 @@ function appendPriceInput(totalPrice) {
   priceInput.value = totalPrice.toString();
 }
 
-// function calculateTotalPrice(startDate, endDate, memberDiscount, tillaggChecked, lodgeRate) {
-//   const start = new Date(startDate);
-//   const end = new Date(endDate);
-//   const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-
-//   let totalPrice = 0;
-
-//   const currentDate = new Date(start);
-//   while (currentDate < end) {
-//     const isWeekend = currentDate.getDay() === 5 || currentDate.getDay() === 4;
-//     const nightlyRate = isWeekend ? lodgeRate.weekendRate : lodgeRate.weekdayRate;
-
-//     if (tillaggChecked) {
-//       totalPrice += 100; // Add 100 for each day booked before member discount
-//     }
-
-//     if (memberDiscount) {
-//       totalPrice += nightlyRate * 0.7;
-//     } else {
-//       totalPrice += nightlyRate;
-//     }
-
-//     currentDate.setDate(currentDate.getDate() + 1);
-//   }
-
-//   return totalPrice;
-// }
-
 function calculateTotalPrice(startDate, endDate, memberDiscount, tillaggChecked, lodgeRate) {
   const start = new Date(startDate);
   const end = new Date(endDate);
@@ -221,7 +193,7 @@ function calculateTotalPrice(startDate, endDate, memberDiscount, tillaggChecked,
   if (memberDiscount) {
     totalPrice *= 0.7; // Add 30% discount
   }
-  return totalPrice;
+  return totalPrice.toFixed(0);
 }
 
 flatpickr.localize(Swedish);

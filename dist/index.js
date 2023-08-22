@@ -2612,7 +2612,7 @@
     if (memberDiscount) {
       totalPrice *= 0.7;
     }
-    return totalPrice;
+    return totalPrice.toFixed(0);
   }
   esm_default.localize(import_sv.Swedish);
 })();
